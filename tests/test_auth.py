@@ -210,6 +210,7 @@ class TestAuth(NereidTestCase):
                 self.assertTrue(
                     "Your account has not been activated yet" in response.data
                 )
+                self.assertFalse(registered_user.email_verified)
 
                 # Activate the account
                 response = c.get('/en_US/activate-account/%s/%s' % (
@@ -221,6 +222,7 @@ class TestAuth(NereidTestCase):
 
                 # Activation code must be cleared
                 self.assertFalse(registered_user.activation_code)
+                self.assertTrue(registered_user.email_verified)
 
                 # Login should work
                 response = c.post(

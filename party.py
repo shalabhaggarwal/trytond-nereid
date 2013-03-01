@@ -241,6 +241,9 @@ class NereidUser(ModelSQL, ModelView):
     #: for activation of the account.
     activation_code = fields.Char('Unique Activation Code')
 
+    #: This field marks if the email of the user has been verified
+    email_verified = fields.Boolean('e-Mail Verified')
+
     # The company of the website(s) to which the user is affiliated. This 
     # allows websites of the same company to share authentication/users. It 
     # does not make business or technical sense to have website of multiple
@@ -308,7 +311,10 @@ class NereidUser(ModelSQL, ModelView):
         """
         assert self.activation_code == activation_code, \
                     'Invalid Activation Code'
-        return self.write([self], {'activation_code': None})
+        return self.write([self], {
+            'activation_code': None,
+            'email_verified': True
+        })
 
     @staticmethod
     def get_registration_form():
